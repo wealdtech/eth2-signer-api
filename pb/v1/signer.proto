@@ -1,13 +1,33 @@
 syntax = "proto3";
 
-import "eth2.proto";
-
 package v1;
 
+import "google/api/annotations.proto";
+import "eth2.proto";
+import "responsestate.proto";
+
+option csharp_namespace = "Eth2Signer.v1";
+option php_namespace = "Eth2Signer\\v1";
+option java_package = "com.wealdtech.eth2signerapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "SignerProto";
+
 service Signer {
-  rpc Sign(SignRequest) returns (SignResponse) { }
-  rpc SignBeaconAttestation(SignBeaconAttestationRequest) returns (SignResponse) { }
-  rpc SignBeaconProposal(SignBeaconProposalRequest) returns (SignResponse) { }
+  rpc Sign(SignRequest) returns (SignResponse) {
+    option (google.api.http) = {
+      get: "/v1/signer/sign"
+    };
+  }
+  rpc SignBeaconAttestation(SignBeaconAttestationRequest) returns (SignResponse) { 
+    option (google.api.http) = {
+      get: "/v1/signer/signbeaconattestation"
+    };
+  }
+  rpc SignBeaconProposal(SignBeaconProposalRequest) returns (SignResponse) { 
+    option (google.api.http) = {
+      get: "/v1/signer/signbeaconproposal"
+    };
+  }
 }
 
 message SignRequest {
@@ -37,18 +57,7 @@ message SignBeaconProposalRequest {
   BeaconBlockHeader data = 4;
 }
 
-enum SignState {
-  // UNKNOWN occurs when no information about the state is available.
-  UNKNOWN = 0;
-  // SUCCEEDED occurs when a request to sign was successful.
-  SUCCEEDED = 1;
-  // DENIED occurs when a request to sign was denied.
-  DENIED = 2;
-  // FAILED occurs when a request to sign failed to complete.
-  FAILED = 3;
-}
-
 message SignResponse {
-  SignState state = 1;
+  ResponseState state = 1;
   bytes signature = 2;
 }

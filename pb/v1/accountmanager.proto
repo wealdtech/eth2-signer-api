@@ -2,11 +2,26 @@ syntax = "proto3";
 
 package v1;
 
-import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "responsestate.proto";
+
+option csharp_namespace = "Eth2Signer.v1";
+option php_namespace = "Eth2Signer\\v1";
+option java_package = "com.wealdtech.eth2signerapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "AccountManagerProto";
 
 service AccountManager {
-  rpc Unlock(UnlockAccountRequest) returns (google.protobuf.Empty) {}
-  rpc Lock(LockAccountRequest) returns (google.protobuf.Empty) {}
+  rpc Unlock(UnlockAccountRequest) returns (UnlockAccountResponse) {
+    option (google.api.http) = {
+      get: "/v1/accountmanager/unlock"
+    };
+  }
+  rpc Lock(LockAccountRequest) returns (LockAccountResponse) {
+    option (google.api.http) = {
+      get: "/v1/accountmanager/lock"
+    };
+  }
 }
 
 message UnlockAccountRequest {
@@ -16,4 +31,12 @@ message UnlockAccountRequest {
 
 message LockAccountRequest {
   string account = 1;
+}
+
+message UnlockAccountResponse {
+  ResponseState state = 1;
+}
+
+message LockAccountResponse {
+  ResponseState state = 1;
 }

@@ -2,8 +2,21 @@ syntax = "proto3";
 
 package v1;
 
+import "google/api/annotations.proto";
+import "responsestate.proto";
+
+option csharp_namespace = "Eth2Signer.v1";
+option php_namespace = "Eth2Signer\\v1";
+option java_package = "com.wealdtech.eth2signerapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "ListerProto";
+
 service Lister {
-  rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) { }
+  rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse) { 
+    option (google.api.http) = {
+      get: "/v1/lister/listaccounts"
+    };
+  }
 }
 
 message ListAccountsRequest {
@@ -11,7 +24,8 @@ message ListAccountsRequest {
 }
 
 message ListAccountsResponse {
-  repeated Account Accounts = 1;
+  ResponseState state = 1;
+  repeated Account Accounts = 2;
 }
 
 message Account {

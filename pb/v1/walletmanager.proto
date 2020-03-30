@@ -2,11 +2,26 @@ syntax = "proto3";
 
 package v1;
 
-import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "responsestate.proto";
+
+option csharp_namespace = "Eth2Signer.v1";
+option php_namespace = "Eth2Signer\\v1";
+option java_package = "com.wealdtech.eth2signerapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "WalletManagerProto";
 
 service WalletManager {
-  rpc Unlock(UnlockWalletRequest) returns (google.protobuf.Empty) {}
-  rpc Lock(LockWalletRequest) returns (google.protobuf.Empty) {}
+  rpc Unlock(UnlockWalletRequest) returns (UnlockWalletResponse) {
+    option (google.api.http) = {
+      get: "/v1/walletmanager/unlock"
+    };
+  }
+  rpc Lock(LockWalletRequest) returns (LockWalletResponse) {
+    option (google.api.http) = {
+      get: "/v1/walletmanager/lock"
+    };
+  }
 }
 
 message UnlockWalletRequest {
@@ -16,4 +31,12 @@ message UnlockWalletRequest {
 
 message LockWalletRequest {
   string wallet = 1;
+}
+
+message UnlockWalletResponse {
+  ResponseState state = 1;
+}
+
+message LockWalletResponse {
+  ResponseState state = 1;
 }
