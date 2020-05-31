@@ -23,6 +23,12 @@ service AccountManager {
       get: "/v1/accountmanager/lock"
     };
   }
+
+  rpc Generate(GenerateRequest) returns (GenerateResponse) {
+    option (google.api.http) = {
+      post: "/v1/accountmanager/generate"
+    };
+  }
 }
 
 message UnlockAccountRequest {
@@ -40,4 +46,15 @@ message UnlockAccountResponse {
 
 message LockAccountResponse {
   ResponseState state = 1;
+}
+
+message GenerateRequest {
+  string account = 1;
+  uint32 participants = 2;
+  uint32 threshold = 3;
+}
+
+message GenerateResponse {
+  ResponseState state = 1;
+  bytes public_key = 2;
 }
