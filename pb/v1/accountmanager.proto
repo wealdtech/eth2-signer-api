@@ -4,6 +4,7 @@ package v1;
 
 import "google/api/annotations.proto";
 import "responsestate.proto";
+import "endpoint.proto";
 
 option csharp_namespace = "Eth2Signer.v1";
 option php_namespace = "Eth2Signer\\v1";
@@ -18,6 +19,7 @@ service AccountManager {
       get: "/v1/accountmanager/unlock"
     };
   }
+
   rpc Lock(LockAccountRequest) returns (LockAccountResponse) {
     option (google.api.http) = {
       get: "/v1/accountmanager/lock"
@@ -50,11 +52,19 @@ message LockAccountResponse {
 
 message GenerateRequest {
   string account = 1;
-  uint32 participants = 2;
-  uint32 threshold = 3;
+  oneof Params {
+    GenerateDistributedKeyParams distributed = 2;
+  }
+}
+
+message GenerateDistributedKeyParams {
+  uint32 participants = 1;
+  uint32 threshold = 2;
 }
 
 message GenerateResponse {
   ResponseState state = 1;
-  bytes public_key = 2;
+  string message = 2;
+  bytes public_key = 3;
+  repeated Endpoint participants = 4;
 }

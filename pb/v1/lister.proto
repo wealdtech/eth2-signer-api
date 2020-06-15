@@ -3,6 +3,7 @@ syntax = "proto3";
 package v1;
 
 import "google/api/annotations.proto";
+import "endpoint.proto";
 import "responsestate.proto";
 
 option csharp_namespace = "Eth2Signer.v1";
@@ -27,9 +28,17 @@ message ListAccountsRequest {
 message ListAccountsResponse {
   ResponseState state = 1;
   repeated Account Accounts = 2;
+  repeated DistributedAccount DistributedAccounts = 3;
 }
 
 message Account {
   string name = 1;
   bytes public_key = 2;
+}
+
+message DistributedAccount {
+  string name = 1;
+  bytes public_key = 2;
+  repeated Endpoint participants = 3;
+  uint32 threshold = 4;
 }

@@ -3,6 +3,14 @@ syntax = "proto3";
 package v1;
 
 import "google/protobuf/empty.proto";
+import "endpoint.proto";
+
+option csharp_namespace = "Eth2Signer.v1";
+option php_namespace = "Eth2Signer\\v1";
+option go_package = "github.com/wealdtech/eth2-signer-api/pb/v1";
+option java_package = "com.wealdtech.eth2signerapi.v1";
+option java_multiple_files = true;
+option java_outer_classname = "DKGProto";
 
 // DKG is the internal protocol that runs between distributed key generators.
 service DKG {
@@ -17,9 +25,9 @@ message PrepareRequest {
   // account is the name of the account.
   string account = 1;
   // threshold is the number of participants required to generate a valid signature.
-  uint64 threshold = 2;
-  // participants contains the IDs of all participants.
-  repeated uint64 participants = 3;
+  uint32 threshold = 2;
+  // participants contains the endpoints of all participants.
+  repeated Endpoint participants = 3;
 }
 
 message ExecuteRequest {
@@ -30,6 +38,8 @@ message ExecuteRequest {
 message CommitRequest {
   // account is the name of the account.
   string account = 1;
+  // confirmation data is data used to generate the confirmation signature.
+  bytes confirmation_data = 2;
 }
 
 message CommitResponse {
@@ -51,7 +61,7 @@ message ContributeRequest {
   repeated bytes verification_vector = 3;
 }
 
-// ContributeResponse provides the contribution from a participant.
+// ContributeResponse receives the contribution from a participant.
 message ContributeResponse {
   bytes secret = 1;
   repeated bytes verification_vector = 2;
