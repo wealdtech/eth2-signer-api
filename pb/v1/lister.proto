@@ -34,11 +34,14 @@ message ListAccountsResponse {
 message Account {
   string name = 1;
   bytes public_key = 2;
+  bytes uuid = 3;
 }
 
 message DistributedAccount {
   string name = 1;
   bytes public_key = 2;
   repeated Endpoint participants = 3;
-  uint32 threshold = 4;
+  uint32 signing_threshold = 4;
+  bytes uuid = 5;
+  bytes composite_public_key = 6;
 }
