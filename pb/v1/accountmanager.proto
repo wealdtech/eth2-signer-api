@@ -55,6 +55,7 @@ message GenerateRequest {
   oneof Params {
     GenerateDistributedKeyParams distributed = 2;
   }
+  bytes passphrase = 3;
 }
 
 message GenerateDistributedKeyParams {
