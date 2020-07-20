@@ -52,15 +52,9 @@ message LockAccountResponse {
 
 message GenerateRequest {
   string account = 1;
-  oneof Params {
-    GenerateDistributedKeyParams distributed = 2;
-  }
-  bytes passphrase = 3;
-}
-
-message GenerateDistributedKeyParams {
-  uint32 participants = 1;
-  uint32 signing_threshold = 2;
+  bytes passphrase = 2;
+  uint32 participants = 3;
+  uint32 signing_threshold = 4;
 }
 
 message GenerateResponse {

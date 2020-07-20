@@ -28,6 +28,8 @@ message PrepareRequest {
   uint32 threshold = 2;
   // participants contains the endpoints of all participants.
   repeated Endpoint participants = 3;
+  // passphrase is the passphrase of the account.
+  bytes passphrase = 4;
 }
 
 message ExecuteRequest {
