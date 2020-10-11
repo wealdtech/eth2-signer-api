@@ -24,6 +24,11 @@ service Signer {
       get: "/v1/signer/signbeaconattestation"
     };
   }
+  rpc SignBeaconAttestations(SignBeaconAttestationsRequest) returns (MultisignResponse) {
+    option (google.api.http) = {
+      get: "/v1/signer/signbeaconattestations"
+    };
+  }
   rpc SignBeaconProposal(SignBeaconProposalRequest) returns (SignResponse) { 
     option (google.api.http) = {
       get: "/v1/signer/signbeaconproposal"
@@ -49,6 +54,10 @@ message SignBeaconAttestationRequest {
   AttestationData data = 4;
 }
 
+message SignBeaconAttestationsRequest {
+  repeated SignBeaconAttestationRequest requests = 1;
+}
+
 message SignBeaconProposalRequest {
   oneof id {
     bytes public_key = 1;
@@ -61,4 +70,8 @@ message SignBeaconProposalRequest {
 message SignResponse {
   ResponseState state = 1;
   bytes signature = 2;
+}
+
+message MultisignResponse {
+  repeated SignResponse responses = 1;
 }
