@@ -19,6 +19,11 @@ service Signer {
       get: "/v1/signer/sign"
     };
   }
+  rpc Multisign(MultisignRequest) returns (MultisignResponse) {
+    option (google.api.http) = {
+      get: "/v1/signer/multisign"
+    };
+  }
   rpc SignBeaconAttestation(SignBeaconAttestationRequest) returns (SignResponse) { 
     option (google.api.http) = {
       get: "/v1/signer/signbeaconattestation"
@@ -43,6 +48,10 @@ message SignRequest {
   }
   bytes data = 3;
   bytes domain = 4;
+}
+
+message MultisignRequest {
+  repeated SignRequest requests = 1;
 }
 
 message SignBeaconAttestationRequest {
